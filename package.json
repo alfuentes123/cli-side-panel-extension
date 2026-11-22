@@ -1,0 +1,196 @@
+{
+  "name": "cli-side-panel-extension",
+  "displayName": "CLI Side Panel",
+  "description": "A simple VS Code extension that opens independent CLI tools and terminals in the secondary side bar with custom commands.",
+  "version": "1.0.0",
+  "publisher": "AlfonsoFuentes",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alfuentes123/cli-side-panel-extension.git"
+  },
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "secondarySidebar": [
+        {
+          "id": "cli-side-panel",
+          "title": "CLI Side Panel",
+          "icon": "media/terminal.svg"
+        }
+      ]
+    },
+    "views": {
+      "cli-side-panel": [
+        {
+          "type": "webview",
+          "id": "cli-side-panel.terminalView",
+          "name": "CLI Side Panel",
+          "icon": "media/terminal.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "cli-side-panel.newTerminal",
+        "title": "New Terminal",
+        "category": "CLI Side Panel",
+        "icon": "$(add)"
+      },
+      {
+        "command": "cli-side-panel.focus",
+        "title": "Focus",
+        "category": "CLI Side Panel"
+      },
+      {
+        "command": "cli-side-panel.restart",
+        "title": "Restart Active Terminal",
+        "category": "CLI Side Panel",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "cli-side-panel.clear",
+        "title": "Clear Active Terminal",
+        "category": "CLI Side Panel",
+        "icon": "$(clear-all)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "cli-side-panel.restart",
+          "when": "view == cli-side-panel.terminalView",
+          "group": "navigation@1"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "CLI Side Panel",
+      "properties": {
+        "cliSidePanel.shell": {
+          "type": "string",
+          "default": "",
+          "description": "Custom shell executable path for new side panel terminals. Leave empty to use the editor's default shell."
+        },
+        "cliSidePanel.shellArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional arguments passed to the shell when starting a new side panel terminal."
+        },
+        "cliSidePanel.launchOptions": {
+          "type": "array",
+          "default": [],
+          "markdownDescription": "Optional command launch presets shown alongside `Empty terminal` in the New Tab dropdown.\n\nEach entry requires `name` and `command`, and optionally supports `cwd`, `shell`, and `shellArgs`.\n\nExample in `settings.json`:\n```json\n\"cliSidePanel.launchOptions\": [\n  { \"name\": \"Claude Code\", \"command\": \"claude\" },\n  { \"name\": \"Gemini CLI\", \"command\": \"gemini\" },\n  { \"name\": \"Dev Server\", \"command\": \"npm run dev\", \"cwd\": \"packages/web\" }\n]\n```",
+          "defaultSnippets": [
+            {
+              "label": "Launch options example",
+              "description": "Add one or more command launch presets",
+              "body": [
+                {
+                  "name": "${1:My CLI}",
+                  "command": "${2:claude}"
+                }
+              ]
+            }
+          ],
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "command"
+            ],
+            "additionalProperties": false,
+            "defaultSnippets": [
+              {
+                "label": "CLI launch preset",
+                "description": "Basic launch option with name and command",
+                "body": {
+                  "name": "${1:My CLI}",
+                  "command": "${2:claude}"
+                }
+              },
+              {
+                "label": "CLI launch preset (with cwd & shell)",
+                "description": "Launch option with optional working directory and shell override",
+                "body": {
+                  "name": "${1:Dev Server}",
+                  "command": "${2:npm run dev}",
+                  "cwd": "${3:.}",
+                  "shell": "${4:}",
+                  "shellArgs": []
+                }
+              }
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Display label for the tab and dropdown item (e.g. 'Claude Code')."
+              },
+              "command": {
+                "type": "string",
+                "description": "Command to run automatically when the tab starts (e.g. 'claude', 'gemini', 'npm run dev')."
+              },
+              "shell": {
+                "type": "string",
+                "description": "Optional shell executable override for this launch option."
+              },
+              "shellArgs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Optional shell arguments override for this launch option."
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Optional working directory (absolute, or relative to the current workspace folder)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit && tsc --noEmit -p tsconfig.webview.json",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "@types/vscode": "^1.146.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  }
+}
