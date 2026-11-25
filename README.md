@@ -2,7 +2,7 @@
 
 A simple VS Code extension that opens CLI tools and terminals in the Secondary Side Bar. Completely separate from VS Code's built-in Terminal so your bottom panel terminal can stay right where it is.
 
-Side-panel version of [CLI View](https://github.com/alfuentes123/cli-view-extension). 
+<img width="1439" height="862" alt="cli-side-panel" src="https://github.com/user-attachments/assets/9c8c9bf3-006b-4e4d-827b-e2fd0576e61c" />
 
 ## Features
 
@@ -14,8 +14,7 @@ Side-panel version of [CLI View](https://github.com/alfuentes123/cli-view-extens
 
 ## Extension Settings
 
-
-**Example** 
+Add your preferred CLI tools using the following format:
 
 ```json
 {
