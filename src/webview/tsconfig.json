@@ -13,7 +13,7 @@
         "strict": true
     },
     "include": [
-        "src/webview/**/*.ts",
-        "src/protocol.ts"
+        "**/*.ts",
+        "../protocol.ts"
     ]
 }

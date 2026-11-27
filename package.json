@@ -2,8 +2,9 @@
   "name": "cli-side-panel-extension",
   "displayName": "CLI Side Panel",
   "description": "A simple VS Code extension that opens independent CLI tools and terminals in the secondary side bar with custom commands.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "AlfonsoFuentes",
+  "icon": "./media/cli-side-panel.png",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -171,14 +172,14 @@
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "check-types": "tsc --noEmit && tsc --noEmit -p tsconfig.webview.json",
+    "check-types": "tsc --noEmit && tsc --noEmit -p src/webview/tsconfig.json",
     "lint": "eslint src",
     "test": "vscode-test"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "24.x",
-    "@types/vscode": "^1.146.0",
+    "@types/vscode": "1.107.0",
     "@vscode/test-cli": "^0.0.15",
     "@vscode/test-electron": "^3.0.0",
     "@xterm/addon-fit": "^0.11.0",

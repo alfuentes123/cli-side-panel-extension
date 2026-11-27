@@ -397,7 +397,7 @@ function renderLaunchMenu(): void {
 	const addMenuItem = (
 		label: string,
 		onSelect: () => void,
-		options?: { detail?: string; secondary?: boolean }
+		options?: { secondary?: boolean }
 	) => {
 		const btn = document.createElement('button');
 		btn.type = 'button';
@@ -408,13 +408,6 @@ function renderLaunchMenu(): void {
 		labelEl.className = 'menu-item-label';
 		labelEl.textContent = label;
 		btn.append(labelEl);
-
-		if (options?.detail) {
-			const detailEl = document.createElement('span');
-			detailEl.className = 'menu-item-detail';
-			detailEl.textContent = options.detail;
-			btn.append(detailEl);
-		}
 
 		const idx = menuButtons.length;
 		btn.addEventListener('mouseenter', () => {
@@ -441,7 +434,7 @@ function renderLaunchMenu(): void {
 	if (launchOptions.length > 0) {
 		addSeparator();
 		launchOptions.forEach((opt, index) => {
-			addMenuItem(opt.name, () => createTab(index), { detail: opt.command });
+			addMenuItem(opt.name, () => createTab(index));
 		});
 	}
 

@@ -295,16 +295,6 @@ body {
 	white-space: nowrap;
 }
 
-.menu-item-detail {
-	width: 100%;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	font-family: var(--vscode-editor-font-family, monospace);
-	font-size: 11px;
-	opacity: 0.72;
-}
-
 .menu-item.secondary {
 	opacity: 0.85;
 }
